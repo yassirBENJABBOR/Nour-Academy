@@ -83,3 +83,16 @@ function Affichercours(list){
 Affichercours(cours);
 
 
+const recherche =document.getElementById("search-input")
+
+recherche.addEventListener("input", function () {
+    const chercher = recherche.value.trim().toLowerCase();
+    const filtercours = cours.filter(function (e) {
+        return e.titre.toLowerCase().includes(chercher)
+    })
+    Affichercours(filtercours);
+});
+
+const filtreparcour = document.getElementById("filtreparcour")
+const filtreparniveau = document.getElementById("filtreparniveau")
+
