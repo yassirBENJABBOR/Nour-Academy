@@ -84,15 +84,30 @@ Affichercours(cours);
 
 
 const recherche =document.getElementById("search-input")
-
-recherche.addEventListener("input", function () {
-    const chercher = recherche.value.trim().toLowerCase();
-    const filtercours = cours.filter(function (e) {
-        return e.titre.toLowerCase().includes(chercher)
-    })
-    Affichercours(filtercours);
-});
-
 const filtreparcour = document.getElementById("filtreparcour")
 const filtreparniveau = document.getElementById("filtreparniveau")
 
+
+function filtrerCours() {
+    const chercher = recherche.value.trim().toLowerCase();
+    const matiereChoisie = filtreparcour.value;
+    const niveauChoisi = filtreparniveau.value;
+
+    const filtercours = cours.filter(function (e) {
+        const titreCorrespond = e.titre.toLowerCase().includes(chercher);
+
+        const matiereCorrespond =
+            matiereChoisie === "" || e.matiere === matiereChoisie;
+
+        const niveauCorrespond =
+            niveauChoisi === "" || e.niveau === niveauChoisi;
+
+        return titreCorrespond && matiereCorrespond && niveauCorrespond;
+    });
+
+    Affichercours(filtercours);
+}
+
+recherche.addEventListener("input", filtrerCours);
+filtreparcour.addEventListener("change", filtrerCours);
+filtreparniveau.addEventListener("change", filtrerCours);
