@@ -225,3 +225,8 @@ filtreparcour.addEventListener("change", filtrerCours);
 filtreparniveau.addEventListener("change", filtrerCours);
 
 
+const confirmerinscription = document.getElementById("confirmerinscription")
+
+confirmerinscription.addEventListener("click",function(){
+    alert("inscription avec succes")
+})
