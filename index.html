@@ -81,8 +81,8 @@
                 Explorez nos cours et choisissez ceux qui correspondent à vos besoins.
             </small>
         </div>
-
-        <div class="bg-white mx-auto border rounded-2xl p-3 sm:p-4 md:w-1/2 border-[#a9b6c9] w-full">
+        <div class="md:flex md:gap-5">
+        <div class="bg-white m-5 mx-auto border rounded-2xl p-3 sm:p-4 md:w-1/2 border-[#a9b6c9] w-full">
             <div class="rounded-2xl flex flex-col md:flex-row flex-wrap gap-3 w-full">
 
                 <input id="search-input" class="bg-[#EFF6FF] border-[#a9b6c9] border rounded-xl py-3 px-3 w-full"type="search" placeholder="Chercher votre cours ici !" >
@@ -108,8 +108,31 @@
                 </div>
             </div>
         </div>
+        <div id="panier" class="bg-white mx-auto  w-2/5 border border-slate-200 rounded-2xl p-4 mb-5">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800">
+                    🛒 Mon panier
+                </h2>
 
+                <span id="panier-count"
+                    class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                    0 cours
+                </span>
+            </div>
 
+            <div id="panier-liste" class="flex flex-col gap-3 mt-4">
+                <p class="text-sm text-slate-500">
+                    Votre panier est vide.
+                </p>
+            </div>
+
+            <div class="border-t mt-4 pt-4 flex justify-between items-center">
+                <span class="font-medium">Total mensuel</span>
+                <strong id="panier-total" class="text-blue-700">0 MAD</strong>
+            </div>
+
+        </div>
+        </div>
         <div id="courses-container" class="flex flex-row flex-wrap justify-center   gap-4   ">
         </div>
 
@@ -360,7 +383,7 @@
             </section>
 
             <section class="bg-[#EFF6FF] border border-blue-100 rounded-xl p-4">
-                <h3 class="font-semibold mb-3">Cours sélectionnés</h3>
+                <h3 class="font-semibold mb-3">Totale des cours sélectionnés</h3>
                 <div id="selected-courses-list" class="flex flex-col gap-2">
                     Aucun cours sélectionné.
                 </div>
@@ -382,9 +405,6 @@
                 Créer mon dossier →
             </button>
 
-            <p class="text-xs text-center text-slate-400">
-                Démonstration front-end : aucune donnée n'est envoyée à un serveur.
-            </p>
         </form>
     </div>
 </div>
