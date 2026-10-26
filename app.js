@@ -29,6 +29,10 @@ closeForum.addEventListener("click" ,function(){
 })
 
 const coursesContainer = document.getElementById("courses-container");
+const selectedCourses = [];
+const selectedCoursesList = document.getElementById("selected-courses-list");
+const monthlyTotal = document.getElementById("monthly-total");
+
 
 function Affichercours(list){
 
@@ -71,16 +75,109 @@ function Affichercours(list){
                     </span>
                 </div>
 
-                <button class="text-white bg-[#2563EB] rounded-[7px] px-3 py-2 text-xs shadow-lg font-medium whitespace-nowrap">
+                <button id="select-course" class="select-course text-white bg-[#2563EB] rounded-[7px] px-3 py-2 text-xs shadow-lg font-medium whitespace-nowrap">
                     Sélectionner
                 </button>
             </div>
         `;
+        const boutonSelectionner = carte.querySelector(".select-course");
 
+        boutonSelectionner.addEventListener("click", function () {
+            boutonSelectionner.className="bg-white text-[#2563EB] rounded-[7px] px-3 py-2 text-xs border shadow-lg font-medium whitespace-nowrap"
+            if (e.disponible === false) {
+                alert("Ce cours n'est pas disponible.");
+                return;
+            }
+
+            const existe = selectedCourses.some(function (coursChoisi) {
+                return coursChoisi.titre === e.titre;
+            });
+
+            if (existe === false) {
+                selectedCourses.push(e);
+            }
+
+            afficherCoursSelectionnes();
+            afficherPanier()
+
+        });
     coursesContainer.appendChild(carte);
     })
 }
 Affichercours(cours);
+
+const panierListe = document.getElementById("panier-liste");
+const panierCount = document.getElementById("panier-count");
+const panierTotal = document.getElementById("panier-total");
+
+function afficherPanier() {
+    panierListe.innerHTML = "";
+
+    let total = 0;
+
+    selectedCourses.forEach(function (cours) {
+        const ligne = document.createElement("div");
+
+        ligne.className =
+            "flex justify-between items-center gap-3 border-b pb-3";
+
+        ligne.innerHTML = `
+            <div>
+                <p class="font-medium">${cours.titre}</p>
+                <small class="text-slate-500">${cours.niveau}</small>
+            </div>
+
+            <strong>${cours.prix} MAD</strong>
+        `;
+
+        panierListe.appendChild(ligne);
+        total += cours.prix;
+    });
+
+    if (selectedCourses.length === 0) {
+        panierListe.innerHTML = `
+            <p class="text-sm text-slate-500">
+                Votre panier est vide.
+            </p>
+        `;
+    }
+
+    panierCount.textContent =
+        selectedCourses.length + " cours";
+
+    panierTotal.textContent = total + " MAD";
+}
+
+
+function afficherCoursSelectionnes() {
+
+    selectedCoursesList.innerHTML = "";
+
+    let total = 0;
+
+    selectedCourses.forEach(function (e) {
+
+        const coursElement = document.createElement("div");
+
+        coursElement.className ="bg-white rounded-lg p-3 flex justify-between items-center gap-3";
+
+        coursElement.innerHTML = `
+            <div>
+                <p class="font-medium">${e.titre}</p>
+                <small class="text-slate-500">${e.niveau}</small>
+            </div>
+
+            <strong>${e.prix} MAD</strong>
+        `;
+
+        selectedCoursesList.appendChild(coursElement);
+
+        total = total + e.prix;
+
+    });
+
+    monthlyTotal.textContent = total + " MAD";
+}
 
 
 const recherche =document.getElementById("search-input")
@@ -90,24 +187,46 @@ const filtreparniveau = document.getElementById("filtreparniveau")
 
 function filtrerCours() {
     const chercher = recherche.value.trim().toLowerCase();
-    const matiereChoisie = filtreparcour.value;
     const niveauChoisi = filtreparniveau.value;
+    const matiereChoisie = filtreparcour.value;
+    const aucunmessage = document.getElementById("aucun-message");
+    
+
 
     const filtercours = cours.filter(function (e) {
-        const titreCorrespond = e.titre.toLowerCase().includes(chercher);
 
-        const matiereCorrespond =
-            matiereChoisie === "" || e.matiere === matiereChoisie;
+        if (e.titre.toLowerCase().includes(chercher)) {
+            if (niveauChoisi === "" || e.niveau === niveauChoisi) {
 
-        const niveauCorrespond =
-            niveauChoisi === "" || e.niveau === niveauChoisi;
+                if (matiereChoisie === "" || e.matiere === matiereChoisie) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
 
-        return titreCorrespond && matiereCorrespond && niveauCorrespond;
+
     });
+    if (filtercours.length === 0) {
+    aucunmessage.classList.remove("hidden");
+    } else {
+        aucunmessage.classList.add("hidden");
+    }
 
     Affichercours(filtercours);
 }
-
 recherche.addEventListener("input", filtrerCours);
 filtreparcour.addEventListener("change", filtrerCours);
 filtreparniveau.addEventListener("change", filtrerCours);
+
+
+const confirmerinscription = document.getElementById("confirmerinscription")
+
+confirmerinscription.addEventListener("click",function(){
+    alert("inscription avec succes")
+})
