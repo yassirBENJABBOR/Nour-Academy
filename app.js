@@ -90,24 +90,41 @@ const filtreparniveau = document.getElementById("filtreparniveau")
 
 function filtrerCours() {
     const chercher = recherche.value.trim().toLowerCase();
-    const matiereChoisie = filtreparcour.value;
     const niveauChoisi = filtreparniveau.value;
+    const matiereChoisie = filtreparcour.value;
+    const aucunmessage = document.getElementById("aucun-message");
+    
+
 
     const filtercours = cours.filter(function (e) {
-        const titreCorrespond = e.titre.toLowerCase().includes(chercher);
 
-        const matiereCorrespond =
-            matiereChoisie === "" || e.matiere === matiereChoisie;
+        if (e.titre.toLowerCase().includes(chercher)) {
+            if (niveauChoisi === "" || e.niveau === niveauChoisi) {
 
-        const niveauCorrespond =
-            niveauChoisi === "" || e.niveau === niveauChoisi;
+                if (matiereChoisie === "" || e.matiere === matiereChoisie) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
 
-        return titreCorrespond && matiereCorrespond && niveauCorrespond;
+
     });
+    if (filtercours.length === 0) {
+    aucunmessage.classList.remove("hidden");
+    } else {
+        aucunmessage.classList.add("hidden");
+    }
 
     Affichercours(filtercours);
 }
-
 recherche.addEventListener("input", filtrerCours);
 filtreparcour.addEventListener("change", filtrerCours);
 filtreparniveau.addEventListener("change", filtrerCours);
+
+
